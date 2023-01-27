@@ -48,7 +48,7 @@ def montePi(numDarts):
 
     for i in range(numDarts):
         x = random.random()
-        y = rendom.random()
+        y = random.random()
 
         distance = math.sqrt(x**2 + y**2)
 
