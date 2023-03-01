@@ -60,7 +60,7 @@ except:
 
 pilAvailable = True
 try:
-    from PIL import Image as PIL_Image
+    from PIL import Image as PIL_Image, ImageOps
     from PIL import ImageTk
 except:
     pilAvailable = False
@@ -476,6 +476,8 @@ if __name__ == '__main__':
     #show newImage to the right of oldImage
     newImage.setPosition(newImage.getWidth()+1,10)
     newImage.draw(win)
+    img_with_border = ImageOps.expand(newImage, border=300, fill='black')
+    img_with_border.save('imaged-with-border.png')
 
     #obtain coordiates of left eye
     print(win.getMouse())
