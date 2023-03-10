@@ -48,7 +48,7 @@ which serves a similar purpose in the graphics primitive world.
 # Added _imroot.lift() to ensure that pictures aren't hidden under other Windows
 # (needed on Windows 7 & Python 3.4. Ubuntu 14.04 was fine without it).
 #
-# version 1.4
+# version 1.4 
 # Brad Miller
 # distribute on pypi
 #
@@ -60,7 +60,7 @@ except:
 
 pilAvailable = True
 try:
-    from PIL import Image as PIL_Image
+    from PIL import Image as PIL_Image, ImageOps
     from PIL import ImageTk
 except:
     pilAvailable = False
@@ -459,7 +459,6 @@ class ListImage(AbstractImage):
 #when a module is imported, the non-function code inside will be executed.
 #However, with this condition, the code will be run only when this file is invoked but not when it is being imported
 if __name__ == '__main__':
-    thickness = 1
     win = ImageWin("cImage Demo",800,500) # redEyes.gif is 395x489
     oldImage = FileImage('redEyes.gif')
     print(oldImage.getWidth(), oldImage.getHeight())
@@ -469,21 +468,16 @@ if __name__ == '__main__':
     newImage = EmptyImage(oldImage.getWidth(),oldImage.getHeight())
     for row in range(newImage.getHeight()):
         for col in range(newImage.getWidth()):
-            v = oldImage.getPixel(col, row)
-            if (col < thickness or row < thickness or col > newImage.getWidth()-thickness-1 or row > newImage.getHeight()-thickness-1):
-                v.red = 255
-                v.green = 0
-                v.blue = 0
-            else:
-                v.red = 255-v.red
-                v.green = 255-v.green
-                v.blue = 255-v.blue
-            newImage.setPixel(col,row,v)
-
-
+             v = oldImage.getPixel(col,row)
+             v.red = 255 - v.red
+             v.green = 255 - v.green
+             v.blue = 255 - v.blue
+             newImage.setPixel(col,row,v)
     #show newImage to the right of oldImage
     newImage.setPosition(newImage.getWidth()+1,10)
     newImage.draw(win)
+    img_with_border = ImageOps.expand(newImage, border=300, fill='black')
+    img_with_border.save('imaged-with-border.png')
 
     #obtain coordiates of left eye
     print(win.getMouse())
